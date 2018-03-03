@@ -39,6 +39,21 @@ var alienBulletY;
  * select(), and adds event listeners to those elements. Sets initial values of
  * variables by calling resetGame().
  */
+function setup() {
+ 	canvas=createCanvas(500,400);
+ 	background(100,100,100);
+ 	gameScreen = select('gameScreen');
+ 	canvas.parent('gameScreen');
+ 	
+ 	shipDiameter=100;
+ 	shipSpeed=10;
+ 	shipX=250;
+ 	shipY=350;
+ 	
+ }
+
+
+
 
 
 /*
@@ -61,13 +76,31 @@ var alienBulletY;
  * This function animates the ship, alien, and both kinds of bullets, but only
  * if the game is running.
  */
-
+function draw() {
+	background(120,45,35);
+	drawShip();
+}
 
 /*
  * drawShip()
  * This function draws the player's ship. It also controls the ship's
  * x value by checking if the player is holding down the left or right keys.
  */
+  function drawShip(){
+
+	ellipse(shipX,shipY,shipDiameter);
+	if(keyIsDown(LEFT_ARROW) && shipX>50){
+		shipX=shipX-shipSpeed;
+
+	}
+	else if(keyIsDown(RIGHT_ARROW) && shipX<450){
+		shipX=shipX+shipSpeed;
+		
+	}
+}
+	
+	
+ 
 
 
 /*
