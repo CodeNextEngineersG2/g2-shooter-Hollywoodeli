@@ -49,6 +49,17 @@ function setup() {
  	shipSpeed=10;
  	shipX=250;
  	shipY=350;
+
+ 	bulletX= shipX;
+ 	bulletY= shipY;
+ 	bulletDiameter=25;
+ 	shipShooting=false;
+
+ 	alienDiameter=100;
+ 	alienVelocity=10;
+ 	alienX=50;
+ 	alienY=50;
+
  	
  }
 
@@ -69,7 +80,7 @@ function setup() {
  * This function "resets the game" by initializing ship, alien, and game
  * variables.
  */
-
+  
 
 /*
  * draw()
@@ -79,7 +90,15 @@ function setup() {
 function draw() {
 	background(120,45,35);
 	drawShip();
+	drawAlien();
+	
+	 if (shipShooting== true){
+	 	console.log("ship");
+	 	drawBullet();
+	}
+
 }
+
 
 /*
  * drawShip()
@@ -87,7 +106,7 @@ function draw() {
  * x value by checking if the player is holding down the left or right keys.
  */
   function drawShip(){
-
+  	fill(134);
 	ellipse(shipX,shipY,shipDiameter);
 	if(keyIsDown(LEFT_ARROW) && shipX>50){
 		shipX=shipX-shipSpeed;
@@ -96,7 +115,7 @@ function draw() {
 	else if(keyIsDown(RIGHT_ARROW) && shipX<450){
 		shipX=shipX+shipSpeed;
 		
-	}
+	}   
 }
 	
 	
@@ -111,7 +130,14 @@ function draw() {
  * ship. Then it sets the "shipShooting" variable to "true", indicating a ship
  * bullet is currently being fired.
  */
+ function keyPressed(){
+ 	if ((keyCode ===32) && shipShooting==false){
+ 		shipShooting= true;
+ 		bulletX=shipX;
+ 		bulletY= shipY;
 
+ 	}
+ }
 
 /*
  * drawBullet()
@@ -120,6 +146,17 @@ function draw() {
  * and the player earns a point. The alien aslo becomes faster (i.e., harder
  * to hit) each time it is hit by a bullet.
  */
+function drawBullet(){
+	
+	if (bulletY >0){
+		fill (200);
+		ellipse(bulletX,bulletY,bulletDiameter,bulletDiameter);
+		bulletY -= 10;
+	}
+   
+	else 
+		shipShooting = false;
+}
 
 
 /*
@@ -127,6 +164,21 @@ function draw() {
  * This function draws an alien. It also checks to see if the alien has touched
  * the player's ship. If it has, the function calls gameOver().
  */
+function drawAlien(){
+	ellipse(alienX, alienY, alienDiameter, alienDiameter);
+
+	alienX+=alienVelocity; 
+
+ if ((alienX>=450) && alienX>alienDiameter/2){
+
+ 	alienX-=alienVelocity;
+ 	alienVelocity=-10;
+ 	}
+
+ 	else if (alienX<=alienDiameter/2){
+ 		alienVelocity=10;
+ 	}
+ }
 
 
 /*
