@@ -56,9 +56,14 @@ function setup() {
  	shipShooting=false;
 
  	alienDiameter=100;
- 	alienVelocity=10;
+ 	alienVelocity=5;
  	alienX=50;
  	alienY=50;
+
+ 	alienBulletX= alienX;
+ 	alienBulletY= alienY;
+ 	alienBulletDiameter=25;
+ 	alienShooting=false;
 
  	
  }
@@ -92,11 +97,13 @@ function draw() {
 	drawShip();
 	drawAlien();
 	
-	 if (shipShooting== true){
+	if (shipShooting== true){
 	 	console.log("ship");
 	 	drawBullet();
 	}
-
+	if (alienShooting== true){
+		drawAlienBullet();
+	}
 }
 
 
@@ -157,8 +164,7 @@ function drawBullet(){
 	else 
 		shipShooting = false;
 }
-
-
+ 
 /*
  * drawAlien()
  * This function draws an alien. It also checks to see if the alien has touched
@@ -169,23 +175,42 @@ function drawAlien(){
 
 	alienX+=alienVelocity; 
 
- if ((alienX>=450) && alienX>alienDiameter/2){
+	if ((alienX>=450) && alienX>alienDiameter/2){
 
- 	alienX-=alienVelocity;
- 	alienVelocity=-10;
- 	}
+ 		alienX-=alienVelocity;
+ 		alienVelocity=-5;
+ 	}	
 
  	else if (alienX<=alienDiameter/2){
- 		alienVelocity=10;
- 	}
- }
-
+ 		alienVelocity=5;
+	}
+ 
+	if(random(4) < 1 && !alienShooting){
+		alienBulletX=alienX;
+		alienBulletY=alienY;
+		alienShooting=true;
+	}
+}
 
 /*
  * drawAlienBullet()
  * This function behaves much like drawBullet(), only it fires from the alien
  * and not the player's ship. If the bullet hits the player, it's game over.
  */
+ function drawAlienBullet(){
+ 	 if (alienBulletY < 500){ 
+		fill (200);
+		ellipse(alienBulletX,alienBulletY,alienBulletDiameter,alienBulletDiameter);
+		alienBulletY += 10;
+	}
+   
+	else {
+		alienShooting = false;
+	}
+
+
+}
+ 
 
 
 /*
